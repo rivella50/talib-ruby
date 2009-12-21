@@ -1,0 +1,27 @@
+h2. talib-ruby
+
+Ruby Wrapper for "ta-lib":http://ta-lib.org/
+
+This project has been started by Timur Adigamov on "Rubyforge":http://rubyforge.org/projects/talib-ruby/,
+but since it didn't build on my machine and wasn't complete i modified it slightly, et voila.
+
+h3. Install and build instructions
+
+# Install ta-lib from MacPorts: sudo port install ta-lib
+# Checkout talib-ruby (it includes the ta-lib directories /include and /lib from
+   the MacPorts version)
+# Now run the following commands in talib-ruby:
+
+    * ARCHFLAGS="-arch i386" ruby extconf.rb --with-talib-dir=/ABSOLUTE_PATH_OF/talib-ruby
+      should output 'checking for TA_Initialize() in -lta_lib... yes'
+                    'creating Makefile'
+    * make -> creates talib.bundle
+    * sudo make install -> copies talib.bundle to /Library/Ruby/Site/1.8/universal-darwin9.0
+
+Now ta-lib can be used by using _require 'talib'_
+
+
+h3. Useful links
+
+* "TA-Lib Forum":http://www.tadoc.org/forum/index.php?board=9.0
+* "XML explanation":http://ta-lib.svn.sourceforge.net/viewvc/ta-lib/trunk/ta-lib/ta_func_api.xml?view=markup of all supported Functions
