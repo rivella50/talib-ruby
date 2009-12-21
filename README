@@ -2,7 +2,7 @@
 Ruby Wrapper for ta-lib (http://ta-lib.org/).
 
 This project has been started by Timur Adigamov on Rubyforge (http://rubyforge.org/projects/talib-ruby/),
-but since it didn't build on my machine and wasn't complete i modified it slightly, et voil&agrave;.
+but since it didn't build on my machine and wasn't complete i modified it slightly, et voil&#224;.
 
 Install and build instructions
 ==============================
@@ -22,3 +22,9 @@ Install and build instructions
    sudo make install -> copies talib.bundle to /Library/Ruby/Site/1.8/universal-darwin9.0
 
 4. Now ta-lib can be used by using "require 'talib'"
+
+
+Useful links
+============
+TA-Lib Forum: http://www.tadoc.org/forum/index.php?board=9.0
+XML explanation of all supported Functions: http://ta-lib.svn.sourceforge.net/viewvc/ta-lib/trunk/ta-lib/ta_func_api.xml?view=markup
