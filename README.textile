@@ -17,14 +17,15 @@ Now run the following commands in talib-ruby:
 
 bc. ARCHFLAGS="-arch i386" ruby extconf.rb --with-talib-dir=/ABSOLUTE_PATH_OF/talib-ruby
 
--> should output 'checking for TA_Initialize() in -lta_lib... yes'
-                 'creating Makefile'
+-> should output 'checking for TA_Initialize() in -lta_lib... yes' and 'creating Makefile'
 
 bc. make
 
 -> creates talib.bundle
 
-bc. sudo make install -> copies talib.bundle to /Library/Ruby/Site/1.8/universal-darwin9.0
+bc. sudo make install
+
+-> copies talib.bundle to /Library/Ruby/Site/1.8/universal-darwin9.0
 
 Now ta-lib can be used by using _require 'talib'_
 
