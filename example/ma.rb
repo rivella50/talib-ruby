@@ -1,4 +1,4 @@
-require 'talib'
+require 'talib_ruby'
 
 # init input data
 a = Array.new
