@@ -4,5 +4,5 @@ $:.unshift(File.dirname(__FILE__)) unless
 require File.dirname(__FILE__) + '/../ext/talib/talib'
 
 module TalibRuby
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 end
