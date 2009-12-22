@@ -9,5 +9,5 @@ task :test => :compile
 
 BIN = "*.{bundle,jar,so,obj,pdb,lib,def,exp}"
 $hoe.clean_globs |= ["ext/**/#{BIN}", "lib/**/#{BIN}", 'ext/**/Makefile']
-$hoe.spec.require_paths = Dir['{lib,ext/*,ext/**/*}']
+$hoe.spec.require_paths = Dir['{lib,ext/*}']
 $hoe.spec.extensions = FileList["ext/**/extconf.rb"].to_a
