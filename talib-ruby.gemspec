@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{talib_ruby}
+  s.name = %q{talib-ruby}
   s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.post_install_message = %q{PostInstall.txt}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib", "ext/talib", "ext/talib", "ext/talib/extconf.rb", "ext/talib/include", "ext/talib/include/ta_abstract.h", "ext/talib/include/ta_common.h", "ext/talib/include/ta_defs.h", "ext/talib/include/ta_func.h", "ext/talib/include/ta_libc.h", "ext/talib/lib", "ext/talib/lib/libta_lib.0.0.0.dylib", "ext/talib/lib/libta_lib.0.dylib", "ext/talib/lib/libta_lib.a", "ext/talib/lib/libta_lib.dylib", "ext/talib/lib/libta_lib.la", "ext/talib/Makefile", "ext/talib/mkmf.log", "ext/talib/talib.bundle", "ext/talib/talib.c", "ext/talib/talib.o"]
-  s.rubyforge_project = %q{talib_ruby}
+  s.rubyforge_project = %q{talib-ruby}
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Ruby wrapper for ta-lib}
   s.test_files = ["test/test_helper.rb", "test/test_talib_extn.rb", "test/test_talib_ruby.rb"]
