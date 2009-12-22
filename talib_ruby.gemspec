@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email = ["rivella50@gmail.com"]
   s.extensions = ["ext/talib/extconf.rb"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "PostInstall.txt"]
-  s.files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc", "Rakefile", "ext/talib/talib.bundle", "lib/talib_ruby.rb", "script/console", "script/destroy", "script/generate", "test/test_helper.rb", "test/test_talib_ruby.rb", "test/test_talib_extn.rb", "ext/talib/extconf.rb"]
+  s.files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc", "Rakefile", "ext/talib/talib.bundle", "lib/talib_ruby.rb", "test/test_helper.rb", "test/test_talib_ruby.rb", "test/test_talib_extn.rb", "ext/talib/extconf.rb"]
   s.homepage = %q{http://github.com/#{github_username}/#{project_name}}
   s.post_install_message = %q{PostInstall.txt}
   s.rdoc_options = ["--main", "README.rdoc"]
