@@ -1,26 +1,18 @@
-require 'rubygems'
-gem 'hoe', '>= 2.1.0'
-require 'hoe'
-require 'fileutils'
-require './lib/talib_ruby'
-
-Hoe.plugin :newgem
-# Hoe.plugin :website
-# Hoe.plugin :cucumberfeatures
-
-# Generate all the Rake tasks
-# Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.spec 'talib_ruby' do
-  self.developer 'Valentin Treu', 'rivella50@gmail.com'
-  self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
-  self.rubyforge_name       = self.name # TODO this is default value
-  # self.extra_deps         = [['activesupport','>= 2.0.2']]
-
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "talib_ruby"
+    gemspec.summary = "Ruby Wrapper for ta-lib"
+    gemspec.description = "Ruby Wrapper for the Technical Analysis Library ta-lib"
+    gemspec.email = "rivella50@gmail.com"
+    gemspec.homepage = "http://github.com/rivella50/talib-ruby"
+    gemspec.authors = ["Valentin Treu"]
+    gemspec.extensions << 'ext/talib/extconf.rb'
+    gemspec.version = '0.0.9'
+    gemspec.files = FileList['example/ma.rb','ext/talib/talib.c', 'README.rdoc','lib/**/*.rb']
+    gemspec.test_files = []
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install jeweler"
 end
-
-require 'newgem/tasks'
-Dir['tasks/**/*.rake'].each { |t| load t }
-
-# TODO - want other tests/tasks run by default? Add them to the list
-# remove_task :default
-# task :default => [:spec, :features]
