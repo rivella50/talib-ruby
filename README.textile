@@ -13,7 +13,7 @@ bc. sudo port install ta-lib
 
 Install the ruby wrapper talib_ruby
 
-bc. sudo env ARCHFLAGS="-arch PLATFORM i386" gem install talib_ruby -- --with-talib-include=ABSOLUTE_PATH_TO_TALIB_HEADERS  --with-talib-lib=ABSOLUTE_PATH_TO_TALIB_LIBS
+bc. sudo env ARCHFLAGS="-arch PLATFORM" gem install talib_ruby -- --with-talib-include=ABSOLUTE_PATH_TO_TALIB_HEADERS  --with-talib-lib=ABSOLUTE_PATH_TO_TALIB_LIBS
 
 * PLATFORM = [i386 | x86_64 | ...]
 * ABSOLUTE_PATH_TO_TALIB_HEADERS = The path the the ta-lib header files (e.g. /opt/local/var/macports/software/ta-lib/0.4.0_0/opt/local/include/ta-lib)
