@@ -353,6 +353,22 @@ static VALUE ta_func_setup_out_real(VALUE self, VALUE param_index, VALUE out_arr
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetOutputParamRealPtr");
 }
 
+static VALUE ta_func_setup_out_integer(VALUE self, VALUE param_index, VALUE out_array)
+{
+	TA_RetCode ret_code;
+	ParamHolder *param_holder;
+
+	if (FIX2INT(param_index) > 2)
+		rb_raise(rb_eRuntimeError, "param_index must be 0..2");
+	Data_Get_Struct(self, ParamHolder, param_holder);
+	rb_ary_store(rb_iv_get(self, "@result"), (long)FIX2INT(param_index), out_array);
+	// FIXME: malloc w/o free
+	param_holder->out[FIX2INT(param_index)] = (int*)malloc(RARRAY(out_array)->len * sizeof(int));
+	ret_code = TA_SetOutputParamIntegerPtr( param_holder->p, FIX2INT(param_index), param_holder->out[FIX2INT(param_index)]);
+	if ( ret_code != TA_SUCCESS )
+		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetOutputParamIntegerPtr");
+}
+
 /*
  * call-seq: call(in_start, in_end)
  *
@@ -382,6 +398,20 @@ static VALUE ta_func_call(VALUE self, VALUE in_start, VALUE in_end)
 			}
 		}
 	return rb_ary_new3(2, INT2FIX(out_start), INT2FIX(out_num));
+}
+
+static VALUE ta_func_lookback(VALUE self)
+{
+	TA_RetCode ret_code;
+	ParamHolder *param_holder;
+	TA_Integer out_lookback;
+
+	Data_Get_Struct(self, ParamHolder, param_holder);
+	ret_code = TA_GetLookback(param_holder->p, &out_lookback);
+	if ( ret_code != TA_SUCCESS )
+		rb_raise(rb_eRuntimeError, "unsuccess return code TA_GetLookback");
+	
+    return INT2FIX(out_lookback);
 }
 
 void Init_talib()
@@ -461,8 +491,9 @@ void Init_talib()
     rb_define_method( rb_cTAFunction, "in_price",   ta_func_setup_in_price, 7);
 	rb_define_method( rb_cTAFunction, "opt_int", 	ta_func_setup_opt_in_integer, 2);
 	rb_define_method( rb_cTAFunction, "opt_real", ta_func_setup_opt_in_real, 		2);
-//rb_define_method( rb_cTAFunction, "out_int", 	ta_func_setup_out_integer, 		2);
+    rb_define_method( rb_cTAFunction, "out_int", 	ta_func_setup_out_integer, 		2);
 	rb_define_method( rb_cTAFunction, "out_real", ta_func_setup_out_real, 			2);
 
+    rb_define_method( rb_cTAFunction, "lookback", ta_func_lookback, 0);
 	rb_define_method( rb_cTAFunction, "call", ta_func_call, 2);
 }
