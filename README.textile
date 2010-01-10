@@ -24,6 +24,8 @@ Works on Leopard and Snow Leopard. Has not been tested on Windows.
 
 h3. Example
 
+Calculation of Moving Average (MA):
+
 bc.. require 'rubygems'
 require 'talib_ruby'
 
