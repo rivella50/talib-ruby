@@ -11,7 +11,7 @@ Install ta-lib from "MacPorts":http://www.macports.org/ports.php?by=name&substr=
 
 bc. sudo port install ta-lib
 
-Install the ruby wrapper talib_ruby
+Install the ruby wrapper talib_ruby:
 
 bc. sudo env ARCHFLAGS="-arch PLATFORM" gem install talib_ruby -- --with-talib-include=ABSOLUTE_PATH_TO_TALIB_HEADERS  --with-talib-lib=ABSOLUTE_PATH_TO_TALIB_LIBS
 
