@@ -24,7 +24,7 @@ Works on Leopard and Snow Leopard. Has not been tested on Windows.
 
 h3. Example
 
-bc. require 'rubygems'
+bc.. require 'rubygems'
 require 'talib_ruby'
 
 # init input data
