@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'talib_ruby'
 
 # init input data
@@ -13,7 +14,7 @@ a = Array.new
 	l.opt_int(0,k+2);
 	# setup output parameter
 	l.out_real(0,b);
-	p l.call(0,9)
+	l.call(0,9)
 	p "k=#{k+2}"
 	p b
 end
