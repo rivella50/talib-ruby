@@ -16,6 +16,55 @@ typedef struct _ph {
 	double* out[3]; // FIXME: ugly
 } ParamHolder;
 
+
+typedef struct {
+    int *ptr;
+} IntData;
+
+typedef struct {
+    double *ptr;
+} DoubleData;
+
+ IntData int_array[20];
+ DoubleData double_array[20];
+
+ int num_int_elements = 0;
+ int num_double_elements = 0;
+
+int store_int_pointer(IntData data)
+{
+   int_array[num_int_elements] = data;
+   num_int_elements++;
+   return num_int_elements;
+}
+
+int store_double_pointer(DoubleData data)
+{
+   double_array[num_double_elements] = data;
+   num_double_elements++;
+   return num_double_elements;
+}
+
+void free_all_pointers()
+{
+    int i;
+    //printf("free %d int elements", num_int_elements);
+    for (i = 0; i < num_int_elements; i++)
+    {
+        free(int_array[i].ptr);
+    }
+    num_int_elements = 0;
+
+    int j;
+    //printf("free %d double elements", num_double_elements);
+    for (j = 0; j < num_double_elements; j++)
+    {
+        free(double_array[j].ptr);
+    }
+    num_double_elements = 0;
+}
+
+
 /* :nodoc: */
 // get TA_FuncInfo by name
 static const TA_FuncInfo* abstract_layer_get_func_info(VALUE name)
@@ -88,6 +137,7 @@ static double* FLT2DBL(VALUE in_array)
 	VALUE *inp;
 	int i;
 	double *result;
+	DoubleData data;
 
 	inp = RARRAY_PTR(in_array);
 	result = malloc(sizeof(double) * RARRAY(in_array)->len);
@@ -95,6 +145,8 @@ static double* FLT2DBL(VALUE in_array)
 	{
 		result[i] = NUM2DBL(inp[i]);
 	}
+	data.ptr = result;
+	store_double_pointer(data);
 	return result;
 }
 
@@ -341,14 +393,18 @@ static VALUE ta_func_setup_out_real(VALUE self, VALUE param_index, VALUE out_arr
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
+	DoubleData data;
 
 	if (FIX2INT(param_index) > 2)
 		rb_raise(rb_eRuntimeError, "param_index must be 0..2");
 	Data_Get_Struct(self, ParamHolder, param_holder);		
 	rb_ary_store(rb_iv_get(self, "@result"), (long)FIX2INT(param_index), out_array);
 	// FIXME: malloc w/o free
-	param_holder->out[FIX2INT(param_index)] = (double*)malloc(RARRAY(out_array)->len * sizeof(double));
+	double *out_ptr = (double*)malloc(RARRAY(out_array)->len * sizeof(double));
+	param_holder->out[FIX2INT(param_index)] = out_ptr;
 	ret_code = TA_SetOutputParamRealPtr( param_holder->p, FIX2INT(param_index), param_holder->out[FIX2INT(param_index)]);
+	data.ptr = out_ptr;
+	store_double_pointer(data);
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetOutputParamRealPtr");
 }
@@ -357,14 +413,18 @@ static VALUE ta_func_setup_out_integer(VALUE self, VALUE param_index, VALUE out_
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
+	IntData data;
 
 	if (FIX2INT(param_index) > 2)
 		rb_raise(rb_eRuntimeError, "param_index must be 0..2");
 	Data_Get_Struct(self, ParamHolder, param_holder);
 	rb_ary_store(rb_iv_get(self, "@result"), (long)FIX2INT(param_index), out_array);
 	// FIXME: malloc w/o free
-	param_holder->out[FIX2INT(param_index)] = (int*)malloc(RARRAY(out_array)->len * sizeof(int));
+	int *out_ptr = (int*)malloc(RARRAY(out_array)->len * sizeof(int));
+	param_holder->out[FIX2INT(param_index)] = out_ptr;
 	ret_code = TA_SetOutputParamIntegerPtr( param_holder->p, FIX2INT(param_index), param_holder->out[FIX2INT(param_index)]);
+	data.ptr = out_ptr;
+	store_int_pointer(data);
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetOutputParamIntegerPtr");
 }
@@ -397,6 +457,7 @@ static VALUE ta_func_call(VALUE self, VALUE in_start, VALUE in_end)
 				rb_ary_store(sub_ary, j+out_start, rb_float_new(el));
 			}
 		}
+	free_all_pointers();
 	return rb_ary_new3(2, INT2FIX(out_start), INT2FIX(out_num));
 }
 
