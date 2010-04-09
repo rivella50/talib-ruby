@@ -516,6 +516,15 @@ void Init_talib()
 	rb_define_const(rb_mTaLib, "TA_OUT_ZERO", INT2FIX(TA_OUT_ZERO));
 	rb_define_const(rb_mTaLib, "TA_OUT_UPPER_LIMIT", INT2FIX(TA_OUT_UPPER_LIMIT));
 	rb_define_const(rb_mTaLib, "TA_OUT_LOWER_LIMIT", INT2FIX(TA_OUT_LOWER_LIMIT));
+  rb_define_const(rb_mTaLib, "TA_MAType_SMA", INT2FIX((int)(TA_MAType_SMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_EMA", INT2FIX((int)(TA_MAType_EMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_WMA", INT2FIX((int)(TA_MAType_WMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_DEMA", INT2FIX((int)(TA_MAType_DEMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_TEMA", INT2FIX((int)(TA_MAType_TEMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_TRIMA", INT2FIX((int)(TA_MAType_TRIMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_KAMA", INT2FIX((int)(TA_MAType_KAMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_MAMA", INT2FIX((int)(TA_MAType_MAMA)));
+  rb_define_const(rb_mTaLib, "TA_MAType_T3", INT2FIX((int)(TA_MAType_T3)));
 
 	rb_struct_define("TA_RealRange", "min", "max", "precision", NULL);
 	rb_struct_define("TA_IntegerRange", "min", "max", NULL );
