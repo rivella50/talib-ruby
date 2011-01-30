@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{talib_ruby}
-  s.version = "1.0.2"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Valentin Treu"]
-  s.date = %q{2011-01-08}
+  s.date = %q{2011-01-30}
   s.description = %q{Ruby Wrapper for the Technical Analysis Library ta-lib}
   s.email = %q{rivella50@gmail.com}
   s.extensions = ["ext/talib/extconf.rb", "ext/talib/extconf.rb"]
