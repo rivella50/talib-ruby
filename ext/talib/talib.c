@@ -104,6 +104,8 @@ static double* FLT2DBL(double **dest, VALUE in_array)
 	VALUE *inp;
 	int i;
 
+  if NIL_P(in_array) return 0;
+
 	inp = RARRAY_PTR(in_array);
     if (*dest) free(*dest);  // only on 1st use do we skip this step
 	*dest = calloc(1, sizeof(double) * RARRAY_LEN(in_array));
@@ -313,7 +315,16 @@ static VALUE ta_func_setup_in_price(VALUE self, VALUE param_index, VALUE in_open
 	ParamHolder *param_holder;
     Data_Get_Struct(self, ParamHolder, param_holder);
     double **dp = param_holder->in;
-    ret_code = TA_SetInputParamPricePtr( param_holder->p, FIX2INT(param_index), FLT2DBL(&dp[0], in_open), FLT2DBL(&dp[1], in_high), FLT2DBL(&dp[2], in_low), FLT2DBL(&dp[3], in_close), FLT2DBL(&dp[4], in_volume), FLT2DBL(&dp[5], in_oi));
+    
+    ret_code = TA_SetInputParamPricePtr( 
+        param_holder->p, 
+        FIX2INT(param_index), 
+        FLT2DBL(&dp[0], in_open), 
+        FLT2DBL(&dp[1], in_high), 
+        FLT2DBL(&dp[2], in_low), 
+        FLT2DBL(&dp[3], in_close), 
+        FLT2DBL(&dp[4], in_volume), 
+        FLT2DBL(&dp[5], in_oi));
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetInputParamPricePtr");
 }
