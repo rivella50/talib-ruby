@@ -28,7 +28,7 @@ bc. sudo env ARCHFLAGS="-arch PLATFORM" gem install talib_ruby -- --with-talib-i
 ** e.g. fo Homebrew: /usr/local/Cellar/ta-lib/0.4.0/lib
 
 Now ta-lib can be used by using _require 'talib_ruby'_
-Works on Leopard and Snow Leopard. Has not been tested on Windows.
+Needs at least Mac OSX 10.5. Has not been tested on Windows, but works there too what i've heard.
 
 h3. Example
 
