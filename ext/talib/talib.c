@@ -1,5 +1,5 @@
 #include "ruby.h"
-#include "ta_abstract.h"
+#include <ta-lib/ta_abstract.h>
 
 static VALUE rb_mTaLib;
 static VALUE rb_cTAFunction;
@@ -298,11 +298,12 @@ static VALUE ta_func_setup_in_integer(VALUE self, VALUE param_index, VALUE in_ar
  */
 static VALUE ta_func_setup_in_real(VALUE self, VALUE param_index, VALUE in_array) 
 {
+	double** dp; 
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
 
 	Data_Get_Struct(self, ParamHolder, param_holder);		
-	double** dp = param_holder->in;
+        dp = param_holder->in;
 	//FIXME: memory leak fixed: johnribera@hotmail.com (see: FL2DBL())
 	ret_code = TA_SetInputParamRealPtr( param_holder->p, FIX2INT(param_index), FLT2DBL(&dp[FIX2INT(param_index)], in_array));
 	if ( ret_code != TA_SUCCESS )
@@ -311,10 +312,11 @@ static VALUE ta_func_setup_in_real(VALUE self, VALUE param_index, VALUE in_array
 
 static VALUE ta_func_setup_in_price(VALUE self, VALUE param_index, VALUE in_open, VALUE in_high, VALUE in_low, VALUE in_close, VALUE in_volume, VALUE in_oi)
 {
+    double **dp;
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
     Data_Get_Struct(self, ParamHolder, param_holder);
-    double **dp = param_holder->in;
+    dp = param_holder->in;
     
     ret_code = TA_SetInputParamPricePtr( 
         param_holder->p, 
@@ -370,12 +372,13 @@ static VALUE ta_func_setup_out_real(VALUE self, VALUE param_index, VALUE out_arr
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
         long idx = FIX2INT(param_index);
+	double **dp;
 	if (idx > 2)
 		rb_raise(rb_eRuntimeError, "param_index must be 0..2");
 	Data_Get_Struct(self, ParamHolder, param_holder);		
 	rb_ary_store(rb_iv_get(self, "@result"), idx, out_array);
 	// FIXME: malloc w/o free: johnribera@hotmail.com fixed
-    double **dp = &(param_holder->out[idx]); 
+	dp = &(param_holder->out[idx]); 
     if (*dp) free(*dp); // not true only 1st time called (reusing same ptrs)
 	*dp = (double*)malloc(RARRAY_LEN(out_array) * sizeof(double));
 	ret_code = TA_SetOutputParamRealPtr(param_holder->p, idx, *dp);
@@ -388,12 +391,13 @@ static VALUE ta_func_setup_out_integer(VALUE self, VALUE param_index, VALUE out_
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
     long idx = FIX2INT(param_index); 
+    int **ip;
 	if (idx > 2)
 		rb_raise(rb_eRuntimeError, "param_index must be 0..2");
 	Data_Get_Struct(self, ParamHolder, param_holder);
 	rb_ary_store(rb_iv_get(self, "@result"), idx, out_array);
 	// FIXME: malloc w/o free FIXED: johnribera@Hotmail.com
-    int **ip = (int**)&(param_holder->out[idx]); 
+    ip = (int**)&(param_holder->out[idx]); 
     if (*ip) free(*ip); // not true only very 1st time in
 	*ip = (int*)malloc(RARRAY_LEN(out_array) * sizeof(int));
 	ret_code=TA_SetOutputParamIntegerPtr( param_holder->p, idx, *ip);
