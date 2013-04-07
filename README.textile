@@ -21,10 +21,10 @@ bc. sudo env ARCHFLAGS="-arch PLATFORM" gem install talib_ruby -- --with-talib-i
 
 * PLATFORM = [i386 | x86_64 | ...]
 * ABSOLUTE_PATH_TO_TALIB_HEADERS = The path to the ta-lib header files
-** e.g. for Port: /opt/local/var/macports/software/ta-lib/0.4.0_0/opt/local/include/ta-lib
-** e.g. for Homebrew: /usr/local/Cellar/ta-lib/0.4.0/include/ta-lib
+** e.g. for Port: /opt/local/var/macports/software/ta-lib/0.4.0_0/opt/local/include
+** e.g. for Homebrew: /usr/local/Cellar/ta-lib/0.4.0/include
 * ABSOLUTE_PATH_TO_TALIB_LIBS = The path to the ta-lib lib files
-** e.g. fo Port: /opt/local/var/macports/software/ta-lib/0.4.0_0/opt/local/lib)
+** e.g. fo Port: /opt/local/var/macports/software/ta-lib/0.4.0_0/opt/local/lib
 ** e.g. fo Homebrew: /usr/local/Cellar/ta-lib/0.4.0/lib
 
 Now ta-lib can be used by using _require 'talib_ruby'_

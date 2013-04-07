@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{talib_ruby}
-  s.version = "1.0.4"
+  s.version = "1.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Valentin Treu"]
-  s.date = %q{2011-07-22}
+  s.date = %q{2013-04-07}
   s.description = %q{Ruby Wrapper for the Technical Analysis Library ta-lib}
   s.email = %q{rivella50@gmail.com}
   s.extensions = ["ext/talib/extconf.rb", "ext/talib/extconf.rb"]
@@ -23,14 +23,14 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/rivella50/talib-ruby}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Ruby Wrapper for ta-lib}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
     else
     end
   else
