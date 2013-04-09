@@ -29,6 +29,7 @@ bc. sudo env ARCHFLAGS="-arch PLATFORM" gem install talib_ruby -- --with-talib-i
 
 Now ta-lib can be used by using _require 'talib_ruby'_
 Needs at least Mac OSX 10.5. Has not been tested on Windows, but works there too what i've heard.
+Tested with Ruby 1.8.7, 1.9.3 and 2.0.0.
 
 h3. Example
 
@@ -62,6 +63,10 @@ h3. Useful links
 * "XML explanation":http://ta-lib.svn.sourceforge.net/viewvc/ta-lib/trunk/ta-lib/ta_func_api.xml?view=markup of all supported Functions
 * "C/C++ API Documentation":http://ta-lib.org/d_api/d_api.html
 
+h3. Donate
+
+If you think this library is useful i would be grateful for a donation.
+!https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif!:https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NCX9EKVWBTBBJ
 
 h3. License
 
