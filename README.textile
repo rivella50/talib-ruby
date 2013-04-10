@@ -7,6 +7,8 @@ but since it didn't build on my machine and wasn't complete i modified it slight
 
 h3. Install and build instructions
 
+h4. Install ta-lib:
+
 Install ta-lib from "MacPorts":http://www.macports.org/ports.php?by=name&substr=ta-lib:
 
 bc. sudo port install ta-lib
@@ -21,8 +23,7 @@ bc. ./configure LDFLAGS="-lm"
 make
 sudo make install
 
-
-Install the ruby wrapper talib_ruby:
+h4. Install the ruby wrapper talib_ruby:
 
 bc. sudo env ARCHFLAGS="-arch PLATFORM" gem install talib_ruby -- --with-talib-include=ABSOLUTE_PATH_TO_TALIB_HEADERS  --with-talib-lib=ABSOLUTE_PATH_TO_TALIB_LIBS
 
