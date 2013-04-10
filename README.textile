@@ -15,6 +15,13 @@ Or install ta-lib from "Homebrew":https://github.com/mxcl/homebrew/blob/master/L
 
 bc. sudo brew install ta-lib
 
+If you want to compile ta-lib from the sources ("ta-lib.org":http://www.ta-lib.org/hdr_dw.html) you have to use the following statements (thanks to rmldj):
+
+bc. ./configure LDFLAGS="-lm"
+make
+sudo make install
+
+
 Install the ruby wrapper talib_ruby:
 
 bc. sudo env ARCHFLAGS="-arch PLATFORM" gem install talib_ruby -- --with-talib-include=ABSOLUTE_PATH_TO_TALIB_HEADERS  --with-talib-lib=ABSOLUTE_PATH_TO_TALIB_LIBS
