@@ -27,7 +27,7 @@ static VALUE rb_sOutParamInfo;
 #define OUT_CNT 3  // allow up to 3 arrays of outputs
 // combine all heap storage to this struct and free only this on ta_free
 typedef struct _ph {
-	TA_ParamHolder *p;	
+	TA_ParamHolder *p;
     double* in[IN_CNT];  // johnribera@Hotmail: the usual case (double)
     double* out[OUT_CNT];
 } ParamHolder;
@@ -44,7 +44,7 @@ static const TA_FuncInfo* abstract_layer_get_func_info(VALUE name)
 	if ( ret_code == TA_SUCCESS )
 	{
 		ret_code = TA_GetFuncInfo( handle, &the_info );
-		if ( ret_code == TA_SUCCESS )	
+		if ( ret_code == TA_SUCCESS )
 			return the_info;
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_GetFuncInfo");
 	}
@@ -65,7 +65,7 @@ static VALUE ta_func_param_info(int param_type, VALUE self, VALUE name, VALUE in
 			case TA_INPUT_PARAM:
 				{
   				const TA_InputParameterInfo *param_info;
-					
+
 					ret_code = TA_GetInputParameterInfo( handle, FIX2INT(index), &param_info );
 					if (ret_code != TA_SUCCESS)
 						rb_raise(rb_eRuntimeError, "unsuccess return code TA_GetInputParameterInfo");
@@ -73,7 +73,7 @@ static VALUE ta_func_param_info(int param_type, VALUE self, VALUE name, VALUE in
 				}
 				break;
 			case TA_OPTION_INPUT_PARAM:
-				{	
+				{
   				const TA_OptInputParameterInfo *param_info;
 
 					ret_code = TA_GetOptInputParameterInfo( handle, FIX2INT(index), &param_info );
@@ -143,7 +143,7 @@ void init_tables()
   		if( ret_code == TA_SUCCESS )
 			{
 				for ( j=0; j < function_table->size; j++)
-					rb_ary_push(rb_temp_func_table, rb_str_new2(function_table->string[j]));					
+					rb_ary_push(rb_temp_func_table, rb_str_new2(function_table->string[j]));
 				rb_hash_aset(rb_function_table, rb_str_new2(group_table->string[i]), rb_temp_func_table);
 				TA_FuncTableFree ( function_table );
 			}
@@ -166,7 +166,7 @@ static void ta_func_free(void *phv)
 }
 
 // allocation function
-static VALUE ta_func_alloc(VALUE klass) 
+static VALUE ta_func_alloc(VALUE klass)
 {
 	ParamHolder *param_holder;
     // call calloc() to ensure we set all values (ptrs to NULL/0)
@@ -181,14 +181,14 @@ static VALUE ta_func_alloc(VALUE klass)
  * 	Create new instance of technical analysis function with given _name_.
  *
  */
-static VALUE ta_func_initialize(VALUE self, VALUE name) 
+static VALUE ta_func_initialize(VALUE self, VALUE name)
 {
 	TA_RetCode ret_code;
   const TA_FuncHandle *handle;
 	TA_ParamHolder *ta_param_holder;
 	ParamHolder *param_holder;
 
-	Data_Get_Struct(self, ParamHolder, param_holder);		
+	Data_Get_Struct(self, ParamHolder, param_holder);
 
   ret_code = TA_GetFuncHandle( RSTRING_PTR(name), &handle );
 	if ( ret_code == TA_SUCCESS )
@@ -237,7 +237,7 @@ static VALUE ta_func_get_groups(VALUE self)
 }
 
 /*
- * Return the hash of names for technical functions. 
+ * Return the hash of names for technical functions.
  * The key is a name of funcion group, and value - is a list of function names.
  */
 static VALUE ta_func_get_functions(VALUE self)
@@ -278,14 +278,14 @@ static VALUE ta_func_output_param_info(VALUE self, VALUE index)
 /*
  * call-seq: in_int(index, array)
  *
- * Set input parameter (array of integer) for the given parameter index. 
+ * Set input parameter (array of integer) for the given parameter index.
  */
-static VALUE ta_func_setup_in_integer(VALUE self, VALUE param_index, VALUE in_array) 
+static VALUE ta_func_setup_in_integer(VALUE self, VALUE param_index, VALUE in_array)
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
 
-	Data_Get_Struct(self, ParamHolder, param_holder);		
+	Data_Get_Struct(self, ParamHolder, param_holder);
 	ret_code = TA_SetInputParamIntegerPtr( param_holder->p, FIX2INT(param_index), (int*)(RARRAY_PTR(in_array)));
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetInputParamIntegerPtr");
@@ -294,14 +294,14 @@ static VALUE ta_func_setup_in_integer(VALUE self, VALUE param_index, VALUE in_ar
 /*
  * call-seq: in_real(index, array)
  *
- * Set input parameter (array of real) for the given parameter index. 
+ * Set input parameter (array of real) for the given parameter index.
  */
-static VALUE ta_func_setup_in_real(VALUE self, VALUE param_index, VALUE in_array) 
+static VALUE ta_func_setup_in_real(VALUE self, VALUE param_index, VALUE in_array)
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
 
-	Data_Get_Struct(self, ParamHolder, param_holder);		
+	Data_Get_Struct(self, ParamHolder, param_holder);
 	double** dp = param_holder->in;
 	//FIXME: memory leak fixed: johnribera@hotmail.com (see: FL2DBL())
 	ret_code = TA_SetInputParamRealPtr( param_holder->p, FIX2INT(param_index), FLT2DBL(&dp[FIX2INT(param_index)], in_array));
@@ -315,15 +315,15 @@ static VALUE ta_func_setup_in_price(VALUE self, VALUE param_index, VALUE in_open
 	ParamHolder *param_holder;
     Data_Get_Struct(self, ParamHolder, param_holder);
     double **dp = param_holder->in;
-    
-    ret_code = TA_SetInputParamPricePtr( 
-        param_holder->p, 
-        FIX2INT(param_index), 
-        FLT2DBL(&dp[0], in_open), 
-        FLT2DBL(&dp[1], in_high), 
-        FLT2DBL(&dp[2], in_low), 
-        FLT2DBL(&dp[3], in_close), 
-        FLT2DBL(&dp[4], in_volume), 
+
+    ret_code = TA_SetInputParamPricePtr(
+        param_holder->p,
+        FIX2INT(param_index),
+        FLT2DBL(&dp[0], in_open),
+        FLT2DBL(&dp[1], in_high),
+        FLT2DBL(&dp[2], in_low),
+        FLT2DBL(&dp[3], in_close),
+        FLT2DBL(&dp[4], in_volume),
         FLT2DBL(&dp[5], in_oi));
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetInputParamPricePtr");
@@ -332,13 +332,13 @@ static VALUE ta_func_setup_in_price(VALUE self, VALUE param_index, VALUE in_open
 /*
  * call-seq: opt_int(index, value)
  *
- * Set option parameter (integer) for the given parameter index. 
+ * Set option parameter (integer) for the given parameter index.
  */
-static VALUE ta_func_setup_opt_in_integer(VALUE self, VALUE param_index, VALUE val) 
+static VALUE ta_func_setup_opt_in_integer(VALUE self, VALUE param_index, VALUE val)
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
-	Data_Get_Struct(self, ParamHolder, param_holder);		
+	Data_Get_Struct(self, ParamHolder, param_holder);
 	ret_code = TA_SetOptInputParamInteger( param_holder->p, FIX2INT(param_index), FIX2INT(val));
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetOptInputParamIntegerPtr");
@@ -347,14 +347,14 @@ static VALUE ta_func_setup_opt_in_integer(VALUE self, VALUE param_index, VALUE v
 /*
  * call-seq: opt_real(index, value)
  *
- * Set option parameter (real) for the given parameter index. 
+ * Set option parameter (real) for the given parameter index.
  */
-static VALUE ta_func_setup_opt_in_real(VALUE self, VALUE param_index, VALUE val) 
+static VALUE ta_func_setup_opt_in_real(VALUE self, VALUE param_index, VALUE val)
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
 
-	Data_Get_Struct(self, ParamHolder, param_holder);		
+	Data_Get_Struct(self, ParamHolder, param_holder);
 	ret_code = TA_SetOptInputParamReal( param_holder->p, FIX2INT(param_index), NUM2DBL(val));
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_SetOptInputParamRealPtr");
@@ -363,19 +363,19 @@ static VALUE ta_func_setup_opt_in_real(VALUE self, VALUE param_index, VALUE val)
 /*
  * call-seq: out_real(index, array)
  *
- * Set output parameter (array of real) for the given parameter index. 
+ * Set output parameter (array of real) for the given parameter index.
  */
-static VALUE ta_func_setup_out_real(VALUE self, VALUE param_index, VALUE out_array) 
+static VALUE ta_func_setup_out_real(VALUE self, VALUE param_index, VALUE out_array)
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
         long idx = FIX2INT(param_index);
 	if (idx > 2)
 		rb_raise(rb_eRuntimeError, "param_index must be 0..2");
-	Data_Get_Struct(self, ParamHolder, param_holder);		
+	Data_Get_Struct(self, ParamHolder, param_holder);
 	rb_ary_store(rb_iv_get(self, "@result"), idx, out_array);
 	// FIXME: malloc w/o free: johnribera@hotmail.com fixed
-    double **dp = &(param_holder->out[idx]); 
+    double **dp = &(param_holder->out[idx]);
     if (*dp) free(*dp); // not true only 1st time called (reusing same ptrs)
 	*dp = (double*)malloc(RARRAY_LEN(out_array) * sizeof(double));
 	ret_code = TA_SetOutputParamRealPtr(param_holder->p, idx, *dp);
@@ -387,13 +387,13 @@ static VALUE ta_func_setup_out_integer(VALUE self, VALUE param_index, VALUE out_
 {
 	TA_RetCode ret_code;
 	ParamHolder *param_holder;
-    long idx = FIX2INT(param_index); 
+    long idx = FIX2INT(param_index);
 	if (idx > 2)
 		rb_raise(rb_eRuntimeError, "param_index must be 0..2");
 	Data_Get_Struct(self, ParamHolder, param_holder);
 	rb_ary_store(rb_iv_get(self, "@result"), idx, out_array);
 	// FIXME: malloc w/o free FIXED: johnribera@Hotmail.com
-    int **ip = (int**)&(param_holder->out[idx]); 
+    int **ip = (int**)&(param_holder->out[idx]);
     if (*ip) free(*ip); // not true only very 1st time in
 	*ip = (int*)malloc(RARRAY_LEN(out_array) * sizeof(int));
 	ret_code=TA_SetOutputParamIntegerPtr( param_holder->p, idx, *ip);
@@ -413,20 +413,34 @@ static VALUE ta_func_call(VALUE self, VALUE in_start, VALUE in_end)
 	TA_Integer out_start, out_num;
 	VALUE ary, sub_ary;
 	int i,j;
+        VALUE out_info;
+        int integer = 0;
 
-	Data_Get_Struct(self, ParamHolder, param_holder);		
+	Data_Get_Struct(self, ParamHolder, param_holder);
 	ret_code = TA_CallFunc( param_holder->p, FIX2INT(in_start), FIX2INT(in_end), &out_start, &out_num);
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_CallFunc");
 	ary = rb_iv_get(self, "@result");
+
+        // Find out output Integer or Real
+        out_info = ta_func_output_param_info(self, INT2NUM(0));
+        if (rb_struct_getmember(out_info, rb_intern("type")) == INT2FIX(TA_Output_Integer)) {
+          integer = 1;
+        };
+
 	for (i = 0; i<RARRAY_LEN(ary); i++)
 		if (TYPE(rb_ary_entry(ary, i)) == T_ARRAY)
 		{
 			sub_ary = rb_ary_entry(ary, i);
 			for (j=0; j<out_num; j++)
 			{
+                          if (integer == 1) {
+				int el = ((int*)param_holder->out[i])[j];
+				rb_ary_store(sub_ary, j+out_start, INT2FIX(el));
+                          } else {
 				double el = ((double*)param_holder->out[i])[j];
 				rb_ary_store(sub_ary, j+out_start, rb_float_new(el));
+                          }
 			}
 		}
 	return rb_ary_new3(2, INT2FIX(out_start), INT2FIX(out_num));
@@ -442,14 +456,14 @@ static VALUE ta_func_lookback(VALUE self)
 	ret_code = TA_GetLookback(param_holder->p, &out_lookback);
 	if ( ret_code != TA_SUCCESS )
 		rb_raise(rb_eRuntimeError, "unsuccess return code TA_GetLookback");
-	
+
     return INT2FIX(out_lookback);
 }
 
 void Init_talib()
 {
 
-	/* 
+	/*
 	 * Ruby extension for technical functions library api.
 	 */
 	rb_mTaLib = rb_define_module("TaLib");
