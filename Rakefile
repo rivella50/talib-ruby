@@ -8,7 +8,7 @@ begin
     gemspec.homepage = "http://github.com/rivella50/talib-ruby"
     gemspec.authors = ["Valentin Treu"]
     gemspec.extensions << 'ext/talib/extconf.rb'
-    gemspec.version = '1.0.4'
+    gemspec.version = '1.0.5'
     gemspec.files = FileList['example/ma.rb','ext/talib/talib.c', 'README.rdoc','lib/**/*.rb']
     gemspec.test_files = []
   end
