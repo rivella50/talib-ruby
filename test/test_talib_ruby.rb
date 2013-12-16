@@ -1,5 +1,5 @@
 #
-# filename: test-fs_array.rb
+# filename: test_talib_ruby.rb
 #
 #
 
@@ -59,4 +59,4 @@ class TestTaLibRuby < Test::Unit::TestCase
 end
 
 
-#### endof filename: test-fs_array.rb
+#### endof filename: test_talib_ruby.rb

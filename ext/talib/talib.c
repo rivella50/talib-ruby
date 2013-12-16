@@ -475,10 +475,10 @@ static VALUE ta_func_call(VALUE self, VALUE in_start, VALUE in_end)
 		if (TYPE(rb_ary_entry(ary, i)) == T_ARRAY)
 		{
 			sub_ary = rb_ary_entry(ary, i);
-			for (j=0; j<out_num; j++)
+			for (j=out_start; j<=out_start+out_num - 1; j++)
 			{
 				double el = ((double*)param_holder->out[i])[j];
-				rb_ary_store(sub_ary, j+out_start, rb_float_new(el));
+				rb_ary_store(sub_ary, j, rb_float_new(el));
 			}
 		}
 	return rb_ary_new3(2, INT2FIX(out_start), INT2FIX(out_num));
