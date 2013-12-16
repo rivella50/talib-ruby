@@ -19,7 +19,7 @@ class TestTaLibMACD < Test::Unit::TestCase
 
   def setup
     @testee = TaLib::Function.new("MACD")
-    
+
     @data = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
     @opt_fast = 2
     @opt_slow = 3
@@ -45,7 +45,7 @@ class TestTaLibMACD < Test::Unit::TestCase
   #
   #
   def test_macd_result
-    
+
     #
     @testee.in_real(0, @data)
 
@@ -68,7 +68,7 @@ class TestTaLibMACD < Test::Unit::TestCase
     exp = [ 0.0, 0.5, 0.5, 0.5, -0.5 ]
     #assert_equal( @testee.result[0][0..4], @out_macd[0..4] )
     assert_equal( @out_macd.size, @testee.result[0].size )
-    
+
     # result[[], ..., []] is set.
     # outside of [ret[0], ret[1]] is undefined. we cannot test them.
     #
