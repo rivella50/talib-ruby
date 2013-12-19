@@ -21,7 +21,8 @@ class TestTaLibMACD < Test::Unit::TestCase
 
     @testee_2 = TaLib::Function.new("MACDEXT")
 
-    @data   = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
+    #@data   = [ 1.0, 2.0, 3.0, 4.0, 5.0 ]
+    @data   = [ 1.0, 2.0, 3.0, 4.0, 5.0, 0.0, 0.0 ]
     @data_2 = [ 1.0, 2.0, 3.0, 4.0, 4.2,  1.0, 2.0, 3.0, 4.0, 4.2,  ]
 
     @opt_fast = 2
