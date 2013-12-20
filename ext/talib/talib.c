@@ -116,42 +116,61 @@ static double* FLT2DBL(double **dest, VALUE in_array)
 
 void init_tables()
 {
-	// temporary variable return code
-	TA_RetCode ret_code;
-	// functions group table
-  TA_StringTable *group_table;
-	// define class variable @@groups - array of function groups
-	// define class variable @@functions - hash of array of functions
-	ret_code = TA_GroupTableAlloc( &group_table );
-  if( ret_code == TA_SUCCESS )
-  {
-		// functions table
-  	TA_StringTable *function_table;
-		// ruby array for functions group table
-		VALUE rb_group_table = rb_ary_new();
-		// ruby hash for functions
-		VALUE rb_function_table = rb_hash_new();
-		unsigned i, j;
+    // temporary variable return code
+    TA_RetCode ret_code;
+    // functions group table
+    TA_StringTable *group_table;
 
-		for( i=0; i < group_table->size; i++ )
-		{
-			// temporary ruby array for group's function table
-			VALUE rb_temp_func_table = rb_ary_new();
+    // define class variable @@groups - array of function groups
+    // define class variable @@functions - hash of array of functions
+    ret_code = TA_GroupTableAlloc( &group_table );
+    if( ret_code == TA_SUCCESS )
+    {
+        // functions table
+        TA_StringTable *function_table;
 
-			rb_ary_push(rb_group_table, rb_str_new2(group_table->string[i]));
-			ret_code = TA_FuncTableAlloc( group_table->string[i], &function_table );
-  		if( ret_code == TA_SUCCESS )
-			{
-				for ( j=0; j < function_table->size; j++)
-					rb_ary_push(rb_temp_func_table, rb_str_new2(function_table->string[j]));					
-				rb_hash_aset(rb_function_table, rb_str_new2(group_table->string[i]), rb_temp_func_table);
-				TA_FuncTableFree ( function_table );
-			}
-		}
-		rb_define_class_variable( rb_cTAFunction, "@@groups", 		rb_group_table );
-		rb_define_class_variable( rb_cTAFunction, "@@functions", 	rb_function_table );
-		TA_GroupTableFree( group_table );
-  }
+        // ruby array for functions group table
+        VALUE rb_group_table = rb_ary_new();
+
+        // ruby hash for functions
+        VALUE rb_function_table = rb_hash_new();
+        unsigned i, j;
+
+        for( i=0; i < group_table->size; i++ )
+        {
+            // temporary ruby array for group's function table
+            VALUE rb_temp_func_table = rb_ary_new();
+
+            rb_ary_push(rb_group_table, rb_str_new2(group_table->string[i]));
+
+            // function names table in hash.
+            ret_code = TA_FuncTableAlloc( group_table->string[i],
+                                          &function_table );
+            if( ret_code == TA_SUCCESS )
+            {
+                for ( j=0; j < function_table->size; j++)
+                rb_ary_push( rb_temp_func_table,
+                             rb_str_new2(function_table->string[j]) );
+                rb_hash_aset( rb_function_table,
+                              rb_str_new2(group_table->string[i]),
+                              rb_temp_func_table );
+                TA_FuncTableFree ( function_table );
+            }
+            else {
+                rb_raise( rb_eRuntimeError,
+                          "unsuccess return code TA_FuncTableAlloc" );
+            }
+        }
+        rb_define_class_variable( rb_cTAFunction,
+                                  "@@groups", rb_group_table );
+        rb_define_class_variable( rb_cTAFunction,
+                                  "@@functions", rb_function_table );
+        TA_GroupTableFree( group_table );
+    }
+    else {
+        rb_raise( rb_eRuntimeError,
+                  "unsuccess return code TA_GetGroupTable" );
+    }
 }
 
 // free function
@@ -203,6 +222,15 @@ static VALUE ta_func_initialize(VALUE self, VALUE name)
 	}
 	rb_raise(rb_eRuntimeError, "unsuccess return code TA_GetFuncHandle");
 }
+
+
+//
+// attr_reader :name
+//
+static VALUE ta_func_get_name(VALUE self) {
+    return rb_iv_get(self, "@name");
+}
+
 
 /*
  * Return input parameters count.
@@ -447,10 +475,10 @@ static VALUE ta_func_call(VALUE self, VALUE in_start, VALUE in_end)
 		if (TYPE(rb_ary_entry(ary, i)) == T_ARRAY)
 		{
 			sub_ary = rb_ary_entry(ary, i);
-			for (j=0; j<out_num; j++)
+			for (j = 0; j < out_num; j++)
 			{
 				double el = ((double*)param_holder->out[i])[j];
-				rb_ary_store(sub_ary, j+out_start, rb_float_new(el));
+				rb_ary_store(sub_ary, j, rb_float_new(el));
 			}
 		}
 	return rb_ary_new3(2, INT2FIX(out_start), INT2FIX(out_num));
@@ -529,7 +557,7 @@ void Init_talib()
 	rb_struct_define("TA_IntegerList", "data", "nb_element", NULL );
 
 	rb_sInParamInfo = rb_struct_define("TA_InputParameterInfo", "type", "param_name", "flags", NULL );
-	rb_sOptInParamInfo = rb_struct_define("TA_OutInputParameterInfo", "type", "param_name", "flags", "display_name", "data_set", "default_value", "hint", "help_file", NULL );
+	rb_sOptInParamInfo = rb_struct_define("TA_OptInputParameterInfo", "type", "param_name", "flags", "display_name", "data_set", "default_value", "hint", "help_file", NULL );
 	rb_sOutParamInfo = rb_struct_define("TA_OutputParameterInfo", "type", "param_name", "flags", NULL );
 
 	/*
@@ -540,8 +568,15 @@ void Init_talib()
 	rb_define_method(rb_cTAFunction, "initialize", ta_func_initialize, 1);
 	rb_define_attr(rb_cTAFunction, "result", 1, 1);
 
-	rb_define_module_function( rb_cTAFunction, "groups", 	 	ta_func_get_groups, 		0 );
+    // define @@group, @@ functions and their accessors
+    // under Function:Class.
+    init_tables();
+	rb_define_module_function( rb_cTAFunction, "groups", ta_func_get_groups, 		0 );
 	rb_define_module_function( rb_cTAFunction, "functions", ta_func_get_functions, 	0 );
+
+    // define accessor for @name.
+    rb_define_method( rb_cTAFunction,
+                      "name",  ta_func_get_name, 0 );
 
 	rb_define_method( rb_cTAFunction, "ins",  ta_func_get_input_count, 			  0 );
 	rb_define_method( rb_cTAFunction, "outs", ta_func_get_output_count, 		  0 );
