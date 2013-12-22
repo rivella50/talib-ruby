@@ -529,7 +529,7 @@ void Init_talib()
 	rb_struct_define("TA_IntegerList", "data", "nb_element", NULL );
 
 	rb_sInParamInfo = rb_struct_define("TA_InputParameterInfo", "type", "param_name", "flags", NULL );
-	rb_sOptInParamInfo = rb_struct_define("TA_OutInputParameterInfo", "type", "param_name", "flags", "display_name", "data_set", "default_value", "hint", "help_file", NULL );
+	rb_sOptInParamInfo = rb_struct_define("TA_OptInputParameterInfo", "type", "param_name", "flags", "display_name", "data_set", "default_value", "hint", "help_file", NULL );
 	rb_sOutParamInfo = rb_struct_define("TA_OutputParameterInfo", "type", "param_name", "flags", NULL );
 
 	/*
