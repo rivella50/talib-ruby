@@ -5,7 +5,7 @@ Ruby Wrapper for "ta-lib":http://ta-lib.org/
 This project has been started by Timur Adigamov on "Rubyforge":http://rubyforge.org/projects/talib-ruby/,
 but since it didn't build on my machine and wasn't complete i modified it slightly, et voila.
 
-h4. Important note for commit id 11277315208a8bfcfd2a3211e10b5732d6705fc7 and gem version 1.0.6
+h4. Important note for commit id "11277315208a8bfcfd2a3211e10b5732d6705fc7":https://github.com/rivella50/talib-ruby/commit/11277315208a8bfcfd2a3211e10b5732d6705fc7 and gem version 1.0.6
 
 From now on all returned lists from talib_ruby now correspond to what ta-lib returns, i.e. there will be no longer leading nil values in any outXYZ lists.
 The nil values will now be trailing nil values if your inserted outXYZ lists are too large (let's say you always insert out arrays with the same length as the inXYZ lists).
