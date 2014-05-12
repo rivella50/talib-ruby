@@ -109,7 +109,7 @@ static double* FLT2DBL(double **dest, VALUE in_array)
   VALUE *inp;
   int i;
 
-  if NIL_P(in_array) return 0;
+  if (NIL_P(in_array)) return 0;
 
   inp = RARRAY_PTR(in_array);
   /* if (*dest) free(*dest);  // only on 1st use do we skip this step */
